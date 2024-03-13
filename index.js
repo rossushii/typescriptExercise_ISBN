@@ -4,19 +4,15 @@ const validateISBN10 = (isbn) => {
         return false;
     }
     const isbnDigits = isbn.replace(/\s/g, '').split('').map(Number);
-    // Check if the ISBN has exactly 10 digits
     if (isbnDigits.length !== 10) {
         return false;
     }
-    // Validate the last digit (which can be a number or 'X')
     const lastDigit = isbnDigits.pop();
     if (typeof lastDigit !== 'number' &&
         (typeof lastDigit !== 'string' || lastDigit !== 'X')) {
         return false;
     }
-    // Calculate the sum of digits multiplied by their position modulo 11
     const sum = isbnDigits.reduce((acc, digit, index) => acc + digit * (index + 1), 0);
-    // Validate the sum modulo 11
     return sum % 11 === (isNaN(lastDigit) ? 10 : lastDigit);
 };
 // Test
